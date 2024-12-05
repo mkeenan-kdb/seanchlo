@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TS6G8K9J');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name='apple-mobile-web-app-capable' content='yes' />
+  <meta name='mobile-web-app-capable' content='yes' />
+  <meta name='apple-mobile-web-app-status-bar-style' content='default' />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Gaelify</title>
+  <link rel="stylesheet" href="css/gaelify.css">
+  <link rel="icon" href="./gaeilgeico.ico" type="image/x-icon">
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TS6G8K9J"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div class="main-container">
+    <div class="web-title">
+      <div class="mick-icon" onClick="window.open('https://github.com/mkeenan-kdb/gaeilge_web_project/blob/main/README.md','_newtab');">
+        <span></span>
+      </div>
+      <h2>Convert to seanchló</h2>
+    </div>
+    <div class="text-container">
+      <textarea id="inputText" placeholder="Enter your Irish text to convert to seanchló..."></textarea>
+    </div>
+    <div class="results-container">
+      <select class="font_style custom-input" name="fonts" id="fontStyle" onchange="changeIrishFont(this.value);">
+        <option value="urrw" selected>'Urr'</option>
+        <option value="ardw">'Ard'</option>
+        <option value="bunw">'Bun'</option>
+        <option value="gearw">'Gear'</option>
+        <option value="glanw">'Glan'</option>
+        <option value="mearw">'Mear'</option>
+        <option value="mionw">'Mion'</option>
+        <option value="sraidw">'Sráidw'</option>
+      </select>
+      <p class="irish-font" id="resultsText">Type above to show text...</p>
+    </div>
+    <p style="text-align:center;margin:5px">Cupán tae</p>
+    <div class="buy-me">
+      <span id="cashApp" onClick="window.open('https://cash.app/$biddlyBick')" target="_newtab"></span>
+      <span id="payPal" onClick="window.open('https://www.paypal.com/paypalme/KeenanUncleMick')" target="_newtab"></span>
+      <span id="revolut" onClick="window.open('https://revolut.me/michaejkn0')" target="_newtab"></span>
+    </div>
+    <p style="text-align:center;margin:10px;font-size: 0.6rem;">Mícheál Ó Cianáin - Michael Keenan</p>
+    <p style="text-align:center;font-size: 0.6rem;">This is my DEMO site. I'm a programmer. Enjoy!</p>
+  </div>
+  <script type="text/javascript" src="js/gaelify.js"></script>
+</body>
+
+</html>

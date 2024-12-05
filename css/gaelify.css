@@ -1,0 +1,283 @@
+@font-face {
+  font-family: 'bunw';
+  src: url('../fonts/bunw/bunigc.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ardw';
+  src: url('../fonts/ardw/ardchlo.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'mionw';
+  src: url('../fonts/mionw/mionchlo.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'urrw';
+  src: url('../fonts/urrw/urrgc.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'gearw';
+  src: url('../fonts/gearw/gear.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'glanw';
+  src: url('../fonts/glanw/glangc.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'mearw';
+  src: url('../fonts/mearw/mearchlo.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'sraidw';
+  src: url('../fonts/sraidw/SraidchloGC-Regular.woff2') format('woff2');
+}
+
+html{
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* font-family: 'urrw', 'Gaelic Modern', sans-serif; */
+    background-color: #f5f5dc;
+    overflow-x: hidden;
+    font-family: 'urrw';
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin:0;
+}
+
+:root {
+  --form-control-color: rebeccapurple;
+}
+
+input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+input[type="radio"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 50%;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="radio"]:focus {
+  outline: max(1px, 0.1em) solid currentColor;
+  outline-offset: max(1px, 0.1em);
+}
+
+input[type="search"]::placeholder {
+  color: white;
+  padding:0;
+  margin:0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+
+.form-control {
+    font-family: system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 200;
+    margin-right: 0.5em;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 0.8em auto;
+    gap: 0.5em;
+}
+
+.web-title {
+    text-align: center;
+    font-family: 'ardw';
+    width: 96%;
+    padding: 10px;
+    background-color: color(srgb 0.88 0.8365 0.6864 / 0.76);
+    top: -7px;
+    z-index: 2;
+    box-shadow: 0px 0px 2px 1px #0000001a;
+    border-radius: 5px;
+}
+
+.web-title > h2 {
+  margin: 5px 50px 5px;
+  font-family: 'ardw';
+  font-size: 2.5rem;
+  color: #13671e;
+}
+
+
+.buy-me {
+  background-color: white;
+  display: block;
+  border-radius: 24px;
+  width: fit-content;
+  padding: 0px 8px 3px 9px;
+  margin: 0 auto;
+}
+
+.mick-icon{
+  background-color:white;
+  display: inline-block;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  float: left;
+  position: relative;
+}
+
+.mick-icon span {
+    background: url(../img/mickicon.png);
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.mick-icon:hover {
+  cursor: pointer;
+}
+
+#cashApp {
+  background: url('../img/cashapp.png');
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+#payPal {
+  background: url('../img/paypal.png');
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+#revolut {
+  background: url('../img/revolut.png');
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+#cashApp, #payPal, #revolut:hover {
+  cursor: pointer;
+}
+
+.irish-font {
+  font-size: 1.6rem;
+  font-family: 'urrw', sans-serif;
+}
+
+
+/* Style the main container */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.text-container textarea {
+  margin-top: 10%;
+  width: 96%;
+  margin-left: 2%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.text-container {
+  width: 96%;
+}
+
+/* Style the results container to look like old paper */
+.results-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px; /* More padding for an old-paper effect */
+  background-color: #fdf1dc; /* Light parchment color */
+  border: 1px solid #d1b899; /* Slightly darker beige for the border */
+  border-radius: 10px; /* Slightly rounded corners */
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
+  background-image: url('../img/old-mathematics.png'); /* Subtle paper texture */
+  background-size: cover;
+  background-blend-mode: multiply;
+}
+
+/* Optional: Add more stylization for the results text */
+.results-container p {
+  color: #5a4638; /* Dark brownish text for an aged look */
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5); /* Subtle text shadow for depth */
+}
+
+.custom-input {
+    color: black;
+    font-size: 0.6rem;
+    font-weight: 600;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #ffffff5e;
+    padding: 5px 5px 5px 8px;
+    border: 1px solid #595959;
+}
+
+.custom-input:hover {
+  background-color: #4588ff;
+  color: white;
+  cursor: pointer;
+}
