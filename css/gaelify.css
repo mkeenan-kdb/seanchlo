@@ -217,7 +217,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .irish-font {
   font-size: 1.6rem;
-  font-family: 'urrw', sans-serif;
+  font-family: 'mionw', sans-serif;
 }
 
 
@@ -230,7 +230,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .text-container textarea {
-  margin-top: 10%;
+  margin-top: 20px;
   width: 96%;
   margin-left: 2%;
   padding: 10px;

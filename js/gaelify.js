@@ -42,6 +42,5 @@ function changeIrishFont(fontStyle){
 
 (function(){
   document.getElementById('inputText').addEventListener('keyup', processText);
-  const textarea = document.getElementById('inputText');
-  adjustTextareaHeight(textarea);
+  processText();
 })()
