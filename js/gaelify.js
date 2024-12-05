@@ -39,7 +39,6 @@ function changeIrishFont(fontStyle){
   console.log(fontStyle)
   document.getElementById('resultsText').style.fontFamily = fontStyle;
 }
-
 (function(){
   document.getElementById('inputText').addEventListener('keyup', processText);
   processText();
