@@ -4,19 +4,33 @@
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDLTZJ7W0V"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-FDLTZJ7W0V');
-    </script>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FDLTZJ7W0V');
+  </script>
   <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-TS6G8K9J');</script>
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-TS6G8K9J');
+  </script>
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name='apple-mobile-web-app-capable' content='yes' />
@@ -31,9 +45,11 @@
 
 <body>
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TS6G8K9J"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TS6G8K9J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+  <div class="loader-box" style="display:none;">
+    <div class="loader"></div>
+  </div>
   <div class="main-container">
     <div class="web-title">
       <div class="mick-icon" onClick="window.open('https://github.com/mkeenan-kdb/gaeilge_web_project/blob/main/README.md','_newtab');">
@@ -46,16 +62,27 @@
 </textarea>
     </div>
     <div class="results-container">
-      <select class="font_style custom-input" name="fonts" id="fontStyle" onchange="changeIrishFont(this.value);">
-        <option value="urrw">'Urr'</option>
-        <option value="ardw">'Ard'</option>
-        <option value="bunw">'Bun'</option>
-        <option value="gearw">'Gear'</option>
-        <option value="glanw">'Glan'</option>
-        <option value="mearw">'Mear'</option>
-        <option value="mionw" selected>'Mion'</option>
-        <option value="sraidw">'Sráidw'</option>
-      </select>
+      <div class="results-header">
+        <select class="font_style custom-input" name="fonts" id="fontStyle" onchange="changeIrishFont(this.value);">
+          <option value="urrw">'Urr'</option>
+          <option value="ardw">'Ard'</option>
+          <option value="bunw">'Bun'</option>
+          <option value="gearw">'Gear'</option>
+          <option value="glanw">'Glan'</option>
+          <option value="mearw">'Mear'</option>
+          <option value="mionw" selected>'Mion'</option>
+          <option value="sraidw">'Sráidw'</option>
+        </select>
+        <select class="speech_voice custom-input" name="voices" id="voiceSelect">
+          <option value="ga_UL_anb_piper">UlsterWoman</option>
+          <option value="ga_CO_snc_piper" selected>ConnachtWoman</option>
+          <option value="ga_MU_nnc_piper">MunsterWoman</option>
+          <option value="ga_MU_dms_piper">MunsterMan</option>
+        </select>
+        <span class="soundicon" onclick="speakIrish();">
+          <img src="img/sound.png" alt="Sound Icon" />
+        </span>
+      </div>
       <p class="irish-font" id="resultsText"></p>
     </div>
     <p style="text-align:center;margin:5px">Cupán tae</p>

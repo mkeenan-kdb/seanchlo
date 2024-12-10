@@ -245,6 +245,9 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /* Style the results container to look like old paper */
 .results-container {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
@@ -280,4 +283,70 @@ input[type="search"]::-webkit-search-results-decoration {
   background-color: #4588ff;
   color: white;
   cursor: pointer;
+}
+
+.loader-box {
+  top: 0%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000b8;
+  z-index: 3;
+  height: 100%;
+  position: fixed;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  --c: no-repeat linear-gradient(orange 0 0);
+  background: var(--c), var(--c), var(--c), var(--c);
+  background-size: 21px 21px;
+  animation: l5 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+
+@keyframes l5 {
+  0% {
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%
+  }
+
+  33% {
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    width: 60px;
+    height: 60px
+  }
+
+  66% {
+    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
+    width: 60px;
+    height: 60px
+  }
+
+  100% {
+    background-position: 100% 0, 100% 100%, 0 100%, 0 0
+  }
+}
+
+.results-header{
+  display: flex;
+  align-items: center; /* Vertically align dropdown and icon */
+  gap: 10px; /* Add space between the dropdown and the icon */
+}
+
+.soundicon{
+  border: 1px solid #ea870c;
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 1px 0px 0px 3px;
+  height: 30px;
+  width: 30px;
+  margin-top: -10px;
+}
+
+.soundicon img {
+  width: 25px; /* Set the size of the PNG image */
+  height: 25px;
+  cursor: pointer; /* Make the icon clickable */
+  display: block; /* Ensure proper alignment */
 }

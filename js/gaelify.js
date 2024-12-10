@@ -40,6 +40,61 @@ function changeIrishFont(fontStyle){
   document.getElementById('resultsText').style.fontFamily = fontStyle;
 }
 
+function showLoader(){
+  document.querySelector('.loader-box').style.display = 'flex';
+}
+
+function hideLoader(){
+  document.querySelector('.loader-box').style.display = 'none';
+}
+
+function speakIrish(elem) {
+  console.log(elem);
+  var txt = document.getElementById("inputText").value;
+  if ('' == txt) return;
+  var voice = document.getElementById('voiceSelect').value;
+  showLoader();
+  console.log("Speaking: ", txt);
+  fetch("https://api.abair.ie/v3/synthesis", {
+    method: "POST",
+    body: JSON.stringify({
+      "synthinput": {
+        "text": txt,
+        "ssml": "string"
+      },
+      "voiceparams": {
+        "languageCode": "ga-IE",
+        "name": voice,
+        "ssmlGender": "UNSPECIFIED"
+      },
+      "audioconfig": {
+        "audioEncoding": "LINEAR16",
+        "speakingRate": 1,
+        "pitch": 1,
+        "volumeGainDb": 1,
+        "htsParams": "string",
+        "sampleRateHertz": 0,
+        "effectsProfileId": []
+      },
+      "outputType": "JSON"
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      "accept": "application/json"
+    }
+  }).then((response) => {
+    return response.json();
+  }).then((json) => {
+    var aud = json.audioContent;
+    var snd = new Audio("data:audio/mp3;base64," + aud);
+    snd.addEventListener("ended", (event) => {
+      console.log("Audio finished playing!");
+      hideLoader();
+    });
+    snd.play();
+  });
+}
+
 (function(){
   document.getElementById('inputText').addEventListener('keyup', processText);
   processText();
