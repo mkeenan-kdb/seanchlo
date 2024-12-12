@@ -1,3 +1,5 @@
+var play = true;
+
 function replaceWithLenition(input) {
   // Define the mapping of letters to replacements
   const replacements = {
@@ -25,6 +27,11 @@ function replaceWithLenition(input) {
 function processText(){
   adjustTextareaHeight(document.getElementById('inputText'));
   var rawText = document.getElementById('inputText').value;
+  //Children request start
+  if(rawText=='')play=true;
+  var s = rawText.toLocaleLowerCase().search('fart');
+  if((s>-1)&&play)playSound("flat.mp3");
+  //Children request end
   var processedText = replaceWithLenition(rawText);
   var displayText = document.getElementById('resultsText');
   resultsText.innerText = processedText;
@@ -93,6 +100,12 @@ function speakIrish(elem) {
     });
     snd.play();
   });
+}
+
+function playSound(file){
+  play = false;
+  var snd = new Audio('img/'+file);
+  snd.play();
 }
 
 (function(){
