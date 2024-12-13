@@ -13,6 +13,8 @@ Try it here: https://mkeenan-kdb.github.io/seanchlo/
 ![ezgif-5-d84bef9c92](https://github.com/user-attachments/assets/017fd7e8-fabf-493f-a203-6be7916a2ffc)
 
 ## IrishApps homepage
+
 Check my other projects and youtube where I document progress etc; https://www.youtube.com/@UncleMick
+
 [Click here](https://mkeenan-kdb.github.io/IrishApps/) to access the IrishApps homepage. 
 
