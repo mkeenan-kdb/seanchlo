@@ -3,15 +3,24 @@ var play = true;
 function replaceWithLenition(input) {
   // Define the mapping of letters to replacements
   const replacements = {
-    b: "\u1E03", B: "\u1E02",
-    c: "\u010B", C: "\u010A",
-    d: "\u1E0B", D: "\u1E0A",
-    f: "\u1E1F", F: "\u1E1E",
-    g: "\u0121", G: "\u0120",
-    m: "\u1E41", M: "\u1E40",
-    p: "\u1E57", P: "\u1E56",
-    s: "\u1E9B", S: "\u1E60",
-    t: "\u1E6B", T: "\u1E6A"
+    b: "\u1E03",
+    B: "\u1E02",
+    c: "\u010B",
+    C: "\u010A",
+    d: "\u1E0B",
+    D: "\u1E0A",
+    f: "\u1E1F",
+    F: "\u1E1E",
+    g: "\u0121",
+    G: "\u0120",
+    m: "\u1E41",
+    M: "\u1E40",
+    p: "\u1E57",
+    P: "\u1E56",
+    s: "\u1E9B",
+    S: "\u1E60",
+    t: "\u1E6B",
+    T: "\u1E6A"
   };
 
   // Regex to match a valid pair of letters and h (case insensitive)
@@ -24,13 +33,13 @@ function replaceWithLenition(input) {
   });
 }
 
-function processText(){
+function processText() {
   adjustTextareaHeight(document.getElementById('inputText'));
   var rawText = document.getElementById('inputText').value;
   //Children request start
-  if(rawText=='')play=true;
+  if (rawText == '') play = true;
   var s = rawText.toLocaleLowerCase().search('fart');
-  if((s>-1)&&play)playSound("flat.mp3");
+  if ((s > -1) && play) playSound("flat.mp3");
   //Children request end
   var processedText = replaceWithLenition(rawText);
   var displayText = document.getElementById('resultsText');
@@ -42,16 +51,16 @@ function adjustTextareaHeight(textarea) {
   textarea.style.height = `${textarea.scrollHeight}px`; // Set height to scroll height
 }
 
-function changeIrishFont(fontStyle){
+function changeIrishFont(fontStyle) {
   console.log(fontStyle)
   document.getElementById('resultsText').style.fontFamily = fontStyle;
 }
 
-function showLoader(){
+function showLoader() {
   document.querySelector('.loader-box').style.display = 'flex';
 }
 
-function hideLoader(){
+function hideLoader() {
   document.querySelector('.loader-box').style.display = 'none';
 }
 
@@ -102,13 +111,15 @@ function speakIrish(elem) {
   });
 }
 
-function playSound(file){
+function playSound(file) {
   play = false;
-  var snd = new Audio('img/'+file);
+  var snd = new Audio('img/' + file);
   snd.play();
 }
 
-(function(){
-  document.getElementById('inputText').addEventListener('keyup', processText);
+(function() {
+  const targetElement = document.getElementById('inputText');
+  //Trigger 'processText' when someone is typing, or pasting
+  targetElement.addEventListener('input', processText);
   processText();
 })()
