@@ -10,6 +10,7 @@ This tool allows you to type Irish and see the old-orthography as you type
 
 Try it here: https://mkeenan-kdb.github.io/seanchlo/
 
+![ezgif-5-d84bef9c92](https://github.com/user-attachments/assets/017fd7e8-fabf-493f-a203-6be7916a2ffc)
+
 Check my other projects and youtube where I document progress etc; https://www.youtube.com/@UncleMick
 
-<img width="1193" alt="image" src="https://github.com/user-attachments/assets/5ccbbf61-2458-46fa-bdbd-54d31ecfa16c">
