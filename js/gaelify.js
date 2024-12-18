@@ -1,28 +1,30 @@
 var play = true;
+var lastFartIndex = -1;      // Tracks the last position where 'fart' was found
+var lastPogIndex = -1;       // Tracks the last position where 'Póg mo thóin' was found
+
+// Define the mapping of letters to replacements
+const replacements = {
+  b: "\u1E03",
+  B: "\u1E02",
+  c: "\u010B",
+  C: "\u010A",
+  d: "\u1E0B",
+  D: "\u1E0A",
+  f: "\u1E1F",
+  F: "\u1E1E",
+  g: "\u0121",
+  G: "\u0120",
+  m: "\u1E41",
+  M: "\u1E40",
+  p: "\u1E57",
+  P: "\u1E56",
+  s: "\u1E9B",
+  S: "\u1E60",
+  t: "\u1E6B",
+  T: "\u1E6A"
+};
 
 function replaceWithLenition(input) {
-  // Define the mapping of letters to replacements
-  const replacements = {
-    b: "\u1E03",
-    B: "\u1E02",
-    c: "\u010B",
-    C: "\u010A",
-    d: "\u1E0B",
-    D: "\u1E0A",
-    f: "\u1E1F",
-    F: "\u1E1E",
-    g: "\u0121",
-    G: "\u0120",
-    m: "\u1E41",
-    M: "\u1E40",
-    p: "\u1E57",
-    P: "\u1E56",
-    s: "\u1E9B",
-    S: "\u1E60",
-    t: "\u1E6B",
-    T: "\u1E6A"
-  };
-
   // Regex to match a valid pair of letters and h (case insensitive)
   const regex = /([BCDFGMPSTbcdfgmpst])(H|h)/g;
 
@@ -36,11 +38,29 @@ function replaceWithLenition(input) {
 function processText() {
   adjustTextareaHeight(document.getElementById('inputText'));
   var rawText = document.getElementById('inputText').value;
-  //Children request start
-  if (rawText == '') play = true;
-  var s = rawText.toLocaleLowerCase().search('fart');
-  if ((s > -1) && play) playSound("flat.mp3");
-  //Children request end
+
+  // Reset play states when input is cleared
+  if (rawText === '') {
+    play = true;
+    lastFartIndex = -1;
+    lastPogIndex = -1;
+  }
+
+  // For the kids
+  var fartIndex = rawText.toLowerCase().lastIndexOf('fart');
+  if (fartIndex > -1 && (play || fartIndex !== lastFartIndex)) {
+    playSound("flat.mp3");    // Play fart sound
+    play = false;             // Prevent immediate retrigger
+    lastFartIndex = fartIndex; // Update last position
+  }
+  var pogIndex = rawText.toLowerCase().lastIndexOf('póg mo thóin');
+  if (pogIndex > -1 && (play || pogIndex !== lastPogIndex)) {
+    playSound("pog.mp3");     // Play 'Póg mo thóin' sound
+    play = false;             // Prevent immediate retrigger
+    lastPogIndex = pogIndex;  // Update last position
+  }
+
+  // Replace text with lenition
   var processedText = replaceWithLenition(rawText);
   var displayText = document.getElementById('resultsText');
   resultsText.innerText = processedText;
