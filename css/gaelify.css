@@ -252,9 +252,6 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /* Style the results container to look like old paper */
 .results-container {
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;

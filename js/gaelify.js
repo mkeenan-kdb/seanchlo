@@ -24,6 +24,52 @@ const replacements = {
   T: "\u1E6A"
 };
 
+// Define the mapping of lenited letters to original letters with 'h'
+const reverseReplacements = {
+  "\u1E03": "bh",
+  "\u1E02": "Bh",
+  "\u010B": "ch",
+  "\u010A": "Ch",
+  "\u1E0B": "dh",
+  "\u1E0A": "Dh",
+  "\u1E1F": "fh",
+  "\u1E1E": "Fh",
+  "\u0121": "gh",
+  "\u0120": "Gh",
+  "\u1E41": "mh",
+  "\u1E40": "Mh",
+  "\u1E57": "ph",
+  "\u1E56": "Ph",
+  "\u1E9B": "sh",
+  "\u1E60": "Sh",
+  "\u1E6B": "th",
+  "\u1E6A": "Th"
+};
+
+//(⁊\204A )
+const insularChars = {
+  D: "\uA779",
+  d: "\uA77A",
+  F: "\uA77B",
+  f: "\uA77C",
+  G: "\uA77D",
+  g: "\u1D79",
+  R: "\uA782",
+  r: "\uA783",
+  S: "\uA784",
+  s: "\uA785",
+  T: "\uA786",
+  t: "\uA787"
+}
+
+function replaceWithOriginal(input) {
+  // Regex to match any of the lenited characters
+  const regex = new RegExp(Object.keys(reverseReplacements).join("|"), "g");
+
+  // Replace matched lenited characters with their corresponding original form
+  return input.replace(regex, (match) => reverseReplacements[match] || match);
+}
+
 function replaceWithLenition(input) {
   // Regex to match a valid pair of letters and h (case insensitive)
   const regex = /([BCDFGMPSTbcdfgmpst])(H|h)/g;
@@ -33,6 +79,32 @@ function replaceWithLenition(input) {
     const replacement = replacements[letter];
     return replacement || match; // Use replacement if available, otherwise leave it unchanged
   });
+}
+
+function replaceWithInsular(input) {
+  // Regex to match a valid pair of letters and h (case insensitive)
+  const regex = /([BCDFGMPSTbcdfgmpst])/g;
+  // Replace matched patterns with their replacements
+  return input.replace(regex, (match, letter, h) => {
+    const replacement = insularChars[letter];
+    return replacement || match; // Use replacement if available, otherwise leave it unchanged
+  });
+}
+
+function parseCopyText(e){
+  const copyInsular = document.getElementById("copyInsular").checked;
+  if(!copyInsular)return;
+
+  const inputText = document.getSelection().toString();
+  if(inputText == '')return;
+  var processedText = replaceWithOriginal(inputText); //Convert processed text back to original
+  //Replace 'agus'
+  const regex = /\bagus\b/gi;;
+  processedText = processedText.replace(regex, "\u204A");
+  processedText = replaceWithInsular(processedText); //Replace insular chars
+  processedText = replaceWithLenition(processedText); //Lenite all others
+  e.clipboardData.setData("text/plain", processedText); //Push to user's clipboard
+  e.preventDefault();
 }
 
 function processText() {
@@ -181,8 +253,11 @@ function fetchJSON(filePath) {
 
 (function() {
   fetchJSON("js/seanfhocal.json");
-  const targetElement = document.getElementById('inputText');
-  //Trigger 'processText' when someone is typing, or pasting
-  targetElement.addEventListener('input', processText);
+  //====Input events ====//
+  const inputElement = document.getElementById('inputText');
+  inputElement.addEventListener('input', processText);
+  //====Output events ====//
+  const targetElement = document.getElementById('resultsText');
+  targetElement.addEventListener("copy", parseCopyText);
   processText();
 })()
