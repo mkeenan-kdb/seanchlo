@@ -354,3 +354,37 @@ input[type="search"]::-webkit-search-results-decoration {
   cursor: pointer; /* Make the icon clickable */
   display: block; /* Ensure proper alignment */
 }
+
+#popUp {
+    background-color: red;
+    border-radius: 11px;
+    position: fixed;
+    z-index: 2;
+    bottom: 0px;
+    opacity: 0; /* Start invisible */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade effect */
+}
+
+.popup-header{
+  background-color: #eb870e;
+  padding:6px;
+  font-size: 1rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center;
+}
+
+.popup-body{
+  background-color: #242424;
+  color: white;
+  font-family: monospace;
+  line-height: 1.5rem;
+  padding: 8px;
+  font-size: 0.7rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#popupTimer{
+  text-align: end;
+}

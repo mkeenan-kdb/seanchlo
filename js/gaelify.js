@@ -53,7 +53,7 @@ const insularChars = {
   F: "\uA77B",
   f: "\uA77C",
   G: "\uA77D",
-  g: "\u1D79",
+  g: "\uA77F",
   R: "\uA782",
   r: "\uA783",
   S: "\uA784",
@@ -251,6 +251,25 @@ function fetchJSON(filePath) {
     });
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function showPopup() {
+  console.log('Start');
+  document.getElementById("popUp").style.opacity = 1;
+  const timep = document.getElementById("popupTimer");
+  const duration = 10000; // Total duration in milliseconds
+  const interval = 1000; // Log interval in milliseconds
+  const steps = duration / interval;
+  for (let i = 1; i <= steps; i++) {
+    timep.innerText = `Closing in: ${1+steps-i}`;
+    await sleep(interval); // Wait for 0.1 seconds (100 ms) in each step
+  }
+  console.log('End');
+  document.getElementById("popUp").style.opacity = 0;
+}
+
 (function() {
   fetchJSON("js/seanfhocal.json");
   //====Input events ====//
@@ -260,4 +279,5 @@ function fetchJSON(filePath) {
   const targetElement = document.getElementById('resultsText');
   targetElement.addEventListener("copy", parseCopyText);
   processText();
+  showPopup();
 })()
