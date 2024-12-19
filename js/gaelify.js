@@ -53,7 +53,7 @@ const insularChars = {
   F: "\uA77B",
   f: "\uA77C",
   G: "\uA77D",
-  g: "\uA77F",
+  g: "\u1D79",
   R: "\uA782",
   r: "\uA783",
   S: "\uA784",
