@@ -1,6 +1,6 @@
-var play = true;
 var lastFartIndex = -1;      // Tracks the last position where 'fart' was found
 var lastPogIndex = -1;       // Tracks the last position where 'Póg mo thóin' was found
+var lastSeanIndex = -1;       // Tracks the last position where 'seanfhocal' was found
 
 // Define the mapping of letters to replacements
 const replacements = {
@@ -44,26 +44,51 @@ function processText() {
     play = true;
     lastFartIndex = -1;
     lastPogIndex = -1;
+    lastSeanIndex = -1;
   }
 
+  var lowerTxt = rawText.toLowerCase();
   // For the kids
-  var fartIndex = rawText.toLowerCase().lastIndexOf('fart');
-  if (fartIndex > -1 && (play || fartIndex !== lastFartIndex)) {
+  var fartIndex = lowerTxt.lastIndexOf('fart');
+  if (fartIndex > -1 && (fartIndex !== lastFartIndex)) {
     playSound("flat.mp3");    // Play fart sound
-    play = false;             // Prevent immediate retrigger
     lastFartIndex = fartIndex; // Update last position
   }
-  var pogIndex = rawText.toLowerCase().lastIndexOf('póg mo thóin');
-  if (pogIndex > -1 && (play || pogIndex !== lastPogIndex)) {
+  var pogIndex = lowerTxt.lastIndexOf('póg mo thóin');
+  if (pogIndex > -1 && (pogIndex !== lastPogIndex)) {
     playSound("pog.mp3");     // Play 'Póg mo thóin' sound
-    play = false;             // Prevent immediate retrigger
     lastPogIndex = pogIndex;  // Update last position
   }
 
-  // Replace text with lenition
-  var processedText = replaceWithLenition(rawText);
+  var seanIndex = lowerTxt.lastIndexOf('seanfhocal');
+  if (seanIndex > -1 && (seanIndex !== lastSeanIndex)){
+    console.log("Displaying seanfhocal");
+    displayRandomSeanfhocal();
+    lastSeanIndex = seanIndex;  // Update last position
+  }else{
+    var processedText = replaceWithLenition(rawText);
+    var displayText = document.getElementById('resultsText');
+    displayText.innerText = processedText;
+  }
+}
+
+function displayRandomSeanfhocal() {
+  // Ensure seanfhocal data is loaded before attempting to access it
+  if (!seanfhocal) {
+    console.error('Seanfhocal data is not loaded yet.');
+    return;
+  }
+
+  // Pick a random index between 0 and the length of the Irish array
+  var randomIndex = Math.floor(Math.random() * seanfhocal.irish.length);
+
+  // Get the corresponding Irish and English proverbs
+  var irishProverb = seanfhocal.irish[randomIndex];
+  var englishProverb = seanfhocal.english[randomIndex];
+
+  // Display the Irish proverb and English translation
   var displayText = document.getElementById('resultsText');
-  resultsText.innerText = processedText;
+  displayText.innerHTML = `${irishProverb}<br><br>"${englishProverb}"`;
 }
 
 function adjustTextareaHeight(textarea) {
@@ -132,12 +157,30 @@ function speakIrish(elem) {
 }
 
 function playSound(file) {
-  play = false;
   var snd = new Audio('img/' + file);
   snd.play();
 }
 
+// Function to fetch and load JSON
+function fetchJSON(filePath) {
+  return fetch(filePath)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON
+    })
+    .then(data => {
+      console.log("Loaded JSON:", data); // Log to verify
+      seanfhocal = data; // Store the JSON data globally
+    })
+    .catch(error => {
+      console.error("Error loading JSON:", error);
+    });
+}
+
 (function() {
+  fetchJSON("js/seanfhocal.json");
   const targetElement = document.getElementById('inputText');
   //Trigger 'processText' when someone is typing, or pasting
   targetElement.addEventListener('input', processText);
