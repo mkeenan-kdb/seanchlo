@@ -259,7 +259,7 @@ async function showPopup() {
   console.log('Start');
   document.getElementById("popUp").style.opacity = 1;
   const timep = document.getElementById("popupTimer");
-  const duration = 10000; // Total duration in milliseconds
+  const duration = 20000; // Total duration in milliseconds
   const interval = 1000; // Log interval in milliseconds
   const steps = duration / interval;
   for (let i = 1; i <= steps; i++) {
