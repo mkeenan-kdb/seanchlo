@@ -268,6 +268,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /* Optional: Add more stylization for the results text */
 .results-container p {
+  overflow-wrap: break-word;
   color: #5a4638; /* Dark brownish text for an aged look */
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5); /* Subtle text shadow for depth */
 }

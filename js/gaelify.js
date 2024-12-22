@@ -1,7 +1,7 @@
-var lastFartIndex = -1;      // Tracks the last position where 'fart' was found
-var lastPogIndex = -1;       // Tracks the last position where 'Póg mo thóin' was found
-var lastSeanIndex = -1;       // Tracks the last position where 'seanfhocal' was found
-
+var lastFartIndex = -1; // Tracks the last position where 'fart' was found
+var lastPogIndex = -1; // Tracks the last position where 'Póg mo thóin' was found
+var lastSeanIndex = -1; // Tracks the last position where 'seanfhocal' was found
+const fnoises = ['flat.mp3', 'flat2.mp3', 'flat3.mp3', 'flat4.mp3']
 // Define the mapping of letters to replacements
 const replacements = {
   b: "\u1E03",
@@ -91,12 +91,12 @@ function replaceWithInsular(input) {
   });
 }
 
-function parseCopyText(e){
+function parseCopyText(e) {
   const copyInsular = document.getElementById("copyInsular").checked;
-  if(!copyInsular)return;
+  if (!copyInsular) return;
 
   const inputText = document.getSelection().toString();
-  if(inputText == '')return;
+  if (inputText == '') return;
   var processedText = replaceWithOriginal(inputText); //Convert processed text back to original
   //Replace 'agus'
   const regex = /\bagus\b/gi;;
@@ -123,21 +123,22 @@ function processText() {
   // For the kids
   var fartIndex = lowerTxt.lastIndexOf('fart');
   if (fartIndex > -1 && (fartIndex !== lastFartIndex)) {
-    playSound("flat.mp3");    // Play fart sound
+    const randomFart = fnoises[Math.floor(Math.random() * fnoises.length)];
+    playSound(randomFart); // Play a random fart sound
     lastFartIndex = fartIndex; // Update last position
   }
   var pogIndex = lowerTxt.lastIndexOf('póg mo thóin');
   if (pogIndex > -1 && (pogIndex !== lastPogIndex)) {
-    playSound("pog.mp3");     // Play 'Póg mo thóin' sound
-    lastPogIndex = pogIndex;  // Update last position
+    playSound("pog.mp3"); // Play 'Póg mo thóin' sound
+    lastPogIndex = pogIndex; // Update last position
   }
 
   var seanIndex = lowerTxt.lastIndexOf('seanfhocal');
-  if (seanIndex > -1 && (seanIndex !== lastSeanIndex)){
+  if (seanIndex > -1 && (seanIndex !== lastSeanIndex)) {
     console.log("Displaying seanfhocal");
     displayRandomSeanfhocal();
-    lastSeanIndex = seanIndex;  // Update last position
-  }else{
+    lastSeanIndex = seanIndex; // Update last position
+  } else {
     var processedText = replaceWithLenition(rawText);
     var displayText = document.getElementById('resultsText');
     displayText.innerText = processedText;
@@ -256,17 +257,15 @@ function sleep(ms) {
 }
 
 async function showPopup() {
-  console.log('Start');
   document.getElementById("popUp").style.opacity = 1;
   const timep = document.getElementById("popupTimer");
-  const duration = 20000; // Total duration in milliseconds
+  const duration = 10000; // Total duration in milliseconds
   const interval = 1000; // Log interval in milliseconds
   const steps = duration / interval;
   for (let i = 1; i <= steps; i++) {
     timep.innerText = `Closing in: ${1+steps-i}`;
     await sleep(interval); // Wait for 0.1 seconds (100 ms) in each step
   }
-  console.log('End');
   document.getElementById("popUp").style.opacity = 0;
 }
 
