@@ -1,391 +1,891 @@
+/* ============================================================
+   Seanchló Typer
+   Palette is manuscript pigment, not shamrock: iron-gall ink on
+   vellum, with verdigris for structure, red lead for actions, and
+   orpiment reserved for the ponc - the dot that is the whole point.
+   ============================================================ */
+
 @font-face {
-  font-family: 'bunw';
-  src: url('../fonts/bunw/bunigc.woff2') format('woff2');
+  font-family: 'mionw';
+  src: url('../fonts/mionw/mionchlo.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'ardw';
   src: url('../fonts/ardw/ardchlo.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'mionw';
-  src: url('../fonts/mionw/mionchlo.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'urrw';
   src: url('../fonts/urrw/urrgc.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bunw';
+  src: url('../fonts/bunw/bungc.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'gearw';
   src: url('../fonts/gearw/gear.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'glanw';
   src: url('../fonts/glanw/glangc.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'mearw';
   src: url('../fonts/mearw/mearchlo.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'sraidw';
   src: url('../fonts/sraidw/SraidchloGC-Regular.woff2') format('woff2');
+  font-display: swap;
 }
 
-html{
-  height: 100vh;
-  width: 100vw;
+/* Vellum by day, bog oak by night.
+   Each token names both values once via light-dark(), so which one applies is
+   decided by `color-scheme` alone: inherited from the OS by default, forced by
+   [data-theme] when the reader picks a side with the button. The plain light
+   value is declared first so a browser without light-dark() drops the second
+   declaration and simply stays light rather than losing the token entirely. */
+:root {
+  color-scheme: light dark;
+
+  --vellum: #e9e2d2;
+  --vellum: light-dark(#e9e2d2, #16130e);
+  --vellum-raise: #f3eee1;
+  --vellum-raise: light-dark(#f3eee1, #201b14);
+  --vellum-sink: #ded5c1;
+  --vellum-sink: light-dark(#ded5c1, #100d09);
+  --ink: #2a2318;
+  --ink: light-dark(#2a2318, #e8dfc9);
+  --ink-soft: #6e6047;
+  --ink-soft: light-dark(#6e6047, #a29172);
+  --ink-faint: #a2937a;
+  --ink-faint: light-dark(#a2937a, #7a6c55);
+  --verdigris: #1e6a5b;
+  --verdigris: light-dark(#1e6a5b, #55ab94);
+  --minium: #b03a2b;
+  --minium: light-dark(#b03a2b, #e0705c);
+  --orpiment: #d8a227;
+  --orpiment: light-dark(#d8a227, #e5b94a);
+  --edge: #cdc2a8;
+  --edge: light-dark(#cdc2a8, #362d21);
+  --edge-soft: #ded5c0;
+  --edge-soft: light-dark(#ded5c0, #2a2319);
+
+  /* light-dark() resolves to a colour, so the shadow is built from colour
+     tokens rather than being one token holding a whole box-shadow value. */
+  --shadow-near: rgba(42, 35, 24, .06);
+  --shadow-near: light-dark(rgba(42, 35, 24, .06), rgba(0, 0, 0, .4));
+  --shadow-far: rgba(42, 35, 24, .22);
+  --shadow-far: light-dark(rgba(42, 35, 24, .22), rgba(0, 0, 0, .7));
+  --shadow-panel: 0 1px 2px var(--shadow-near), 0 12px 32px -12px var(--shadow-far);
+
+  /* Ruling: the output panel is scored like vellum, so the text
+     line-height and the rule pitch must be the same fixed value. */
+  --rule: 46px;
+
+  --radius-panel: 20px;
+  --radius-field: 10px;
+  --radius-pill: 999px;
+
+  --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* font-family: 'urrw', 'Gaelic Modern', sans-serif; */
-    background-color: #f5f5dc;
-    overflow-x: hidden;
-    font-family: 'urrw';
+/* The button pins a side; with no attribute the OS decides. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
-  margin:0;
-}
-
-:root {
-  --form-control-color: rebeccapurple;
-}
-
-input[type="radio"] {
-  /* Add if not using autoprefixer */
-  -webkit-appearance: none;
-  appearance: none;
-  /* For iOS < 15 to remove gradient background */
-  background-color: #fff;
-  /* Not removed via appearance */
   margin: 0;
+  padding: 0;
 }
 
-input[type="radio"] {
-  appearance: none;
-  background-color: #fff;
-  margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid currentColor;
-  border-radius: 50%;
-  transform: translateY(-0.075em);
-  display: grid;
-  place-content: center;
+/* Author `display` beats the UA sheet's [hidden] rule, so restate it here or
+   .loader-box{display:flex} keeps the overlay on screen permanently. */
+[hidden] {
+  display: none !important;
 }
 
-input[type="radio"]::before {
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--vellum);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding: 0 20px 64px;
+}
+
+/* Hairline grain. Two near-invisible washes so the ground is not flat
+   colour, without shipping a texture image. */
+body::before {
   content: "";
-  width: 0.65em;
-  height: 0.65em;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em var(--form-control-color);
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(216, 162, 39, .10), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(30, 106, 91, .07), transparent 70%);
 }
 
-input[type="radio"]:checked::before {
-  transform: scale(1);
-}
-
-input[type="radio"]:focus {
-  outline: max(1px, 0.1em) solid currentColor;
-  outline-offset: max(1px, 0.1em);
-}
-
-input[type="search"]::placeholder {
-  color: white;
-  padding:0;
-  margin:0;
-}
-
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance:none;
-}
-
-.form-control {
-    font-family: system-ui, sans-serif;
-    font-size: 0.7rem;
-    font-weight: 200;
-    margin-right: 0.5em;
-    line-height: 1.1;
-    display: grid;
-    grid-template-columns: 0.8em auto;
-    gap: 0.5em;
-}
-
-.web-title {
-    text-align: center;
-    font-family: 'ardw';
-    width: 96%;
-    padding: 10px;
-    background-color: color(srgb 0.88 0.8365 0.6864 / 0.76);
-    top: -7px;
-    z-index: 2;
-    box-shadow: 0px 0px 2px 1px #0000001a;
-    border-radius: 5px;
-}
-
-.web-title > h2 {
-  margin: 5px 50px 5px;
-  font-family: 'ardw';
-  font-size: 2.5rem;
-  color: #13671e;
-}
-
-.icon-link {
-  display: inline-block;         /* Use flexbox to align items inline */
-     /* Vertically center the items */
-  float: inline-start;
-  font-size: 0.8rem;
-}
-
-.mick-icon {
-  background-color: white;
-  display: block;
-  padding: 2px;
-  float: left;
-  border-radius: 50%;
-  border: 2px solid #eb870e;
-      /* Add space between the icon and the text */
-}
-
-.mick-icon span {
-  background: url(../img/mickicon.png);
-  width: 40px;
-  height: 40px;
-  background-size: contain;
-  display: block;
-  margin-left: 1px;
-  margin-top: 1px;
-}
-
-.mick-icon:hover {
-  cursor: pointer;
-}
-
-.buy-me {
-  background-color: white;
-  display: block;
-  border-radius: 24px;
-  width: fit-content;
-  padding: 0px 8px 3px 9px;
+.page {
+  width: 100%;
+  max-width: 660px;
   margin: 0 auto;
 }
 
-#cashApp {
-  background: url('../img/cashapp.png');
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  display: inline-block;
-  margin-top: 10px;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-#payPal {
-  background: url('../img/paypal.png');
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  display: inline-block;
-  margin-top: 10px;
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  background: var(--verdigris);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-field);
+  text-decoration: none;
+  font-weight: 600;
+  z-index: 100;
+  transition: top .15s ease;
 }
 
-#revolut {
-  background: url('../img/revolut.png');
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  display: inline-block;
-  margin-top: 10px;
+.skip-link:focus {
+  top: 12px;
 }
 
-#cashApp, #payPal, #revolut:hover {
-  cursor: pointer;
+:where(a, button, select, textarea, input, .switch):focus-visible {
+  outline: 2px solid var(--orpiment);
+  outline-offset: 2px;
+  border-radius: var(--radius-field);
 }
 
-.irish-font {
-  font-size: 1.6rem;
-  font-family:'mionw', sans-serif;
-}
+/* ---------- Top bar ---------- */
 
-
-/* Style the main container */
-.main-container {
+.topbar {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 80%;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 2px;
 }
 
-.text-container textarea {
-  margin-top: 20px;
-  width: 96%;
-  margin-left: 2%;
-  padding: 10px;
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.brand:hover {
+  color: var(--ink);
+}
+
+.brand-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: url('../img/mickicon.png') center / cover no-repeat, var(--vellum-raise);
+  box-shadow: 0 0 0 1px var(--edge);
+}
+
+.topbar-note {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--edge);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+.theme-btn:hover {
+  color: var(--ink);
+  border-color: var(--ink-faint);
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+
+.theme-btn svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Half-filled disc: one icon that reads correctly in either theme, so there is
+   no second icon to swap and no state for the button to get wrong. */
+.theme-btn .disc-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  padding: 24px 2px 34px;
+}
+
+.masthead h1 {
+  font-family: 'ardw', Georgia, serif;
+  font-size: clamp(3.4rem, 13vw, 5.6rem);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.lede {
+  margin-top: 16px;
+  max-width: 46ch;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  text-wrap: pretty;
 }
 
-.text-container {
-  width: 96%;
+/* ---------- Compose ---------- */
+
+.field-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
 }
 
-/* Style the results container to look like old paper */
-.results-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
+#inputText {
+  display: block;
   width: 100%;
-  padding: 10px; /* More padding for an old-paper effect */
-  background-color: #fdf1dc; /* Light parchment color */
-  border: 1px solid #d1b899; /* Slightly darker beige for the border */
-  border-radius: 10px; /* Slightly rounded corners */
-  text-align: left;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
-  background-image: url('../img/old-mathematics.png'); /* Subtle paper texture */
-  background-size: cover;
-  background-blend-mode: multiply;
+  min-height: 96px;
+  padding: 14px 16px;
+  font-family: var(--ui);
+  font-size: 16px;
+  /* 16px stops iOS zooming on focus */
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--vellum-raise);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-field);
+  resize: vertical;
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
 
-/* Optional: Add more stylization for the results text */
-.results-container p {
-  overflow-wrap: break-word;
-  color: #5a4638; /* Dark brownish text for an aged look */
-  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5); /* Subtle text shadow for depth */
+#inputText::placeholder {
+  color: var(--ink-faint);
 }
 
-.custom-input {
-    color: black;
-    font-size: 0.6rem;
-    font-weight: 600;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #ffffff5e;
-    padding: 5px 5px 5px 8px;
-    border: 1px solid #595959;
+#inputText:focus {
+  outline: none;
+  border-color: var(--verdigris);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--verdigris) 18%, transparent);
 }
 
-.custom-input:hover {
-  background-color: #4588ff;
-  color: white;
+/* ---------- Switches ---------- */
+/* Checked state is marked with a ponc - the séimhiú dot - rather than a
+   generic tick, so the control uses the script's own vocabulary. */
+
+.switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.switch {
   cursor: pointer;
 }
 
-.loader-box {
-  top: 0%;
-  width: 100%;
+.switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-face {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 11px;
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.switch:hover .switch-face {
+  border-color: var(--ink-faint);
+  color: var(--ink);
+}
+
+.switch-glyph {
+  /* The UI sans has no Tironian et or insular s. Setting the Gaelic face here
+     both fixes the tofu and previews the letterform the switch turns on. */
+  font-family: 'mionw', Georgia, serif;
+  font-size: 17px;
+  line-height: 1;
+  position: relative;
+  color: var(--ink-faint);
+  transition: color .15s ease;
+}
+
+/* the ponc */
+.switch-glyph::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--orpiment);
+  opacity: 0;
+  transform: scale(.4);
+  transition: opacity .18s ease, transform .18s cubic-bezier(.2, 1.4, .4, 1);
+}
+
+.switch input:checked+.switch-face {
+  background: color-mix(in srgb, var(--verdigris) 12%, transparent);
+  border-color: color-mix(in srgb, var(--verdigris) 45%, transparent);
+  color: var(--ink);
+}
+
+.switch input:checked+.switch-face .switch-glyph {
+  color: var(--verdigris);
+}
+
+.switch input:checked+.switch-face .switch-glyph::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.switch input:focus-visible+.switch-face {
+  outline: 2px solid var(--orpiment);
+  outline-offset: 2px;
+}
+
+.switch-text i {
+  font-style: italic;
+}
+
+/* ---------- Ponc rule ---------- */
+/* Three dots between input and output: the same mark as the switches,
+   doing a divider's job. */
+
+.ponc-rule {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000000b8;
-  z-index: 3;
-  height: 100%;
+  gap: 9px;
+  padding: 30px 0;
+}
+
+.ponc-rule span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: .55;
+}
+
+.ponc-rule span:nth-child(2) {
+  background: var(--orpiment);
+  opacity: 1;
+}
+
+/* ---------- Vellum panel ---------- */
+
+.vellum {
+  background: var(--vellum-raise);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+}
+
+/* The scored ruling a scribe would rule before writing. The gradient pitch
+   and #resultsText line-height are both --rule, so text sits on the lines
+   whichever of the nine faces is selected. */
+#resultsText {
+  margin: 0;
+  padding: 30px 26px 34px;
+  min-height: calc(var(--rule) * 3 + 64px);
+  font-size: clamp(1.45rem, 5.2vw, 1.9rem);
+  line-height: var(--rule);
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  background-image: repeating-linear-gradient(to bottom,
+      transparent,
+      transparent calc(var(--rule) - 1px),
+      color-mix(in srgb, var(--ink) 11%, transparent) calc(var(--rule) - 1px),
+      color-mix(in srgb, var(--ink) 11%, transparent) var(--rule));
+  background-position: 0 30px;
+  background-clip: content-box;
+}
+
+.result-gloss {
+  display: block;
+  margin-top: var(--rule);
+  font-family: var(--ui);
+  font-size: 14.5px;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.result-gloss::before {
+  content: "“";
+}
+
+.result-gloss::after {
+  content: "”";
+}
+
+.irish-font {
+  font-family: 'mionw', Georgia, serif;
+}
+
+/* Insular mode. Beyond swapping in the insular codepoints, this turns on the
+   fonts' own ss01 stylistic set, which carries insular alternates that have no
+   Unicode equivalent - including ponc'd letters (ṡ everywhere; ṫ and ḟ in
+   Urrchló). All eight faces ship ss01. */
+#resultsText.insular {
+  font-feature-settings: "ss01" 1;
+}
+
+/* ---------- Tools ---------- */
+
+.vellum-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 14px;
+  border-top: 1px solid var(--edge-soft);
+  background: color-mix(in srgb, var(--vellum) 55%, var(--vellum-raise));
+}
+
+.tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.select {
+  appearance: none;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--ink);
+  background: var(--vellum-raise);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-field);
+  padding: 7px 26px 7px 11px;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 12px center, right 7px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: border-color .15s ease;
+}
+
+.select:hover {
+  border-color: var(--ink-faint);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--ink);
+  background: var(--vellum-raise);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-field);
+  padding: 7px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .8;
+}
+
+.btn:hover {
+  border-color: var(--ink-faint);
+  background: color-mix(in srgb, var(--ink) 5%, var(--vellum-raise));
+}
+
+.btn:active {
+  transform: translateY(.5px);
+}
+
+/* Listen is the one primary action, so it is the one filled control. */
+.btn-speak {
+  background: var(--verdigris);
+  border-color: var(--verdigris);
+  color: #f6f2e6;
+}
+
+.btn-speak svg {
+  opacity: 1;
+}
+
+.btn-speak:hover {
+  background: color-mix(in srgb, var(--verdigris) 88%, black);
+  border-color: color-mix(in srgb, var(--verdigris) 88%, black);
+}
+
+.btn-speak.is-playing {
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--verdigris) 55%, transparent);
+  }
+
+  50% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+
+/* ---------- Loader ---------- */
+
+.loader-box {
   position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: color-mix(in srgb, var(--vellum-sink) 80%, transparent);
+  backdrop-filter: blur(6px);
 }
 
 .loader {
-  width: 40px;
-  height: 40px;
-  --c: no-repeat linear-gradient(orange 0 0);
-  background: var(--c), var(--c), var(--c), var(--c);
-  background-size: 21px 21px;
-  animation: l5 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
-}
-
-@keyframes l5 {
-  0% {
-    background-position: 0 0, 100% 0, 100% 100%, 0 100%
-  }
-
-  33% {
-    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-    width: 60px;
-    height: 60px
-  }
-
-  66% {
-    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
-    width: 60px;
-    height: 60px
-  }
-
-  100% {
-    background-position: 100% 0, 100% 100%, 0 100%, 0 0
-  }
-}
-
-.results-header{
-  display: flex;
-  align-items: center; /* Vertically align dropdown and icon */
-  gap: 10px; /* Add space between the dropdown and the icon */
-}
-
-.soundicon{
-  border: 1px solid #ea870c;
-  background-color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border: 2px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-top-color: var(--orpiment);
   border-radius: 50%;
-  padding: 1px 0px 0px 3px;
-  height: 30px;
-  width: 30px;
-  margin-top: -10px;
+  animation: spin .8s linear infinite;
 }
 
-.soundicon img {
-  width: 25px; /* Set the size of the PNG image */
-  height: 25px;
-  cursor: pointer; /* Make the icon clickable */
-  display: block; /* Ensure proper alignment */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
+
+.loader-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+/* ---------- Toast ---------- */
+
+.toast-notification {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%) translateY(14px);
+  background: var(--ink);
+  color: var(--vellum);
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13.5px;
+  font-weight: 550;
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, .45);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1200;
+  transition: opacity .2s ease, transform .2s cubic-bezier(.2, .9, .3, 1);
+}
+
+.toast-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- What's new ---------- */
 
 #popUp {
-    background-color: red;
-    border-radius: 11px;
-    position: fixed;
-    z-index: 2;
-    bottom: 0px;
-    opacity: 0; /* Start invisible */
-    transition: opacity 0.5s ease-in-out; /* Smooth fade effect */
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(340px, calc(100vw - 32px));
+  background: var(--vellum-raise);
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  box-shadow: 0 18px 44px -14px rgba(0, 0, 0, .45);
+  z-index: 900;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .35s ease, transform .35s cubic-bezier(.2, .9, .3, 1);
 }
 
-.popup-header{
-  background-color: #eb870e;
-  padding:6px;
-  font-size: 1rem;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+#popUp.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 12px 11px 15px;
+  border-bottom: 1px solid var(--edge-soft);
+  font-size: 13.5px;
+  font-weight: 650;
+}
+
+.popup-close-btn {
+  background: none;
+  border: none;
+  color: var(--ink-faint);
+  font-size: 14px;
+  line-height: 1;
+  padding: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-close-btn:hover {
+  color: var(--ink);
+  background: var(--vellum-sink);
+}
+
+.popup-body {
+  padding: 13px 15px 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.popup-body ul {
+  list-style: none;
+}
+
+.popup-body li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 7px;
+  line-height: 1.5;
+}
+
+.popup-body li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--orpiment);
+}
+
+#popupTimer {
+  margin-top: 11px;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  text-align: right;
+}
+
+/* ---------- Colophon ---------- */
+
+.colophon {
+  padding: 52px 2px 0;
   text-align: center;
 }
 
-.popup-body{
-  background-color: #242424;
-  color: white;
-  font-family: monospace;
-  line-height: 1.5rem;
-  padding: 8px;
-  font-size: 0.7rem;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+.support-line {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
 }
 
-#popupTimer{
-  text-align: end;
+.support {
+  display: inline-flex;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--vellum-raise);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-pill);
+}
+
+.support a {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 50%;
+  transition: transform .15s ease;
+}
+
+.support a:hover {
+  transform: translateY(-2px);
+}
+
+.support img {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+/* The payment marks are solid black artwork with no brand colour to protect,
+   so they vanish on the dark pill until inverted. filter is not a colour, so
+   light-dark() cannot express this - it needs both theme states spelled out. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .support img {
+    filter: invert(1) opacity(.82);
+  }
+}
+
+:root[data-theme="dark"] .support img {
+  filter: invert(1) opacity(.82);
+}
+
+.colophon-bio {
+  margin: 20px auto 0;
+  max-width: 44ch;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-faint);
+  text-wrap: pretty;
+}
+
+.colophon-bio a {
+  color: var(--ink-soft);
+  text-underline-offset: 2px;
+}
+
+.colophon-bio a:hover {
+  color: var(--minium);
+}
+
+/* ---------- Narrow ---------- */
+
+@media (max-width: 560px) {
+  :root {
+    --rule: 38px;
+    --radius-panel: 16px;
+  }
+
+  body {
+    padding: 0 14px 48px;
+  }
+
+  .masthead {
+    padding: 16px 2px 26px;
+  }
+
+  #resultsText {
+    padding: 24px 18px 28px;
+    background-position: 0 24px;
+  }
+
+  .vellum-tools {
+    justify-content: stretch;
+  }
+
+  .tool-row {
+    width: 100%;
+  }
+
+  .tool-row-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 7px 10px;
+  }
+
+  .topbar-note {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
